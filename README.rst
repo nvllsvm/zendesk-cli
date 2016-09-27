@@ -19,7 +19,7 @@ Dumping
 
 .. code-block:: bash
 
-   zendesk.py -a https://yourprefix.zendesk.com/api/v2/ -u you@domain.com/token -f 'tags:trash status:new'
+   zendesk.py -a https://<yourprefix>.zendesk.com/api/v2/ -u <user@domain>/token -f 'tags:trash status:new'
 
 
 Deleting
@@ -27,7 +27,7 @@ Deleting
 
 .. code-block:: bash
 
-   zendesk.py -a https://yourprefix.zendesk.com/api/v2/ -u you@domain.com/token -d 'tags:trash status:new'
+   zendesk.py -a https://<yourprefix>.zendesk.com/api/v2/ -u <user@domain>/token -d 'tags:trash status:new'
 
 
 Mark as spam
@@ -35,4 +35,4 @@ Mark as spam
 
 .. code-block:: bash
 
-   zendesk.py -a https://yourprefix.zendesk.com/api/v2/ -u you@domain.com/token -s 'tags:trash status:new'
+   zendesk.py -a https://<yourprefix>.zendesk.com/api/v2/ -u <user@domain>/token -s 'tags:trash status:new'
