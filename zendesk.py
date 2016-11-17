@@ -10,8 +10,8 @@ import requests
 class ZendeskAPI(object):
     def __init__(self, api_url, user, password):
         self.api_url = api_url
-        self.user = user
-        self.password = password
+        self.session = requests.Session()
+        self.session.auth = (user, password)
 
     def query(self, query):
         path = 'search.json'
@@ -52,8 +52,7 @@ class ZendeskAPI(object):
         self._bulk_operation('DELETE', url, tickets)
 
     def request(self, method, url, **kwargs):
-        kwargs.setdefault('auth', (self.user, self.password))
-        response = requests.request(url=url, method=method, **kwargs)
+        response = self.session.request(url=url, method=method, **kwargs)
         response.raise_for_status()
         return response
 
