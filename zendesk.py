@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+from configparser import ConfigParser
 from getpass import getpass
 from pprint import pprint
 from urllib.parse import urljoin
@@ -64,9 +65,9 @@ class ZendeskAPI(object):
 def main():
     parser = argparse.ArgumentParser(description='Zendesk API CLI utility')
     parser.add_argument('query', help='API query')
-    parser.add_argument('-u', '--user', required=True,
+    parser.add_argument('-u', '--user',
                         help='API User')
-    parser.add_argument('-a', '--api-url', required=True,
+    parser.add_argument('-a', '--api-url',
                         help='API Base URL')
     parser.add_argument('-s', action='store_const',
                         const=True, dest='spam',
@@ -77,17 +78,36 @@ def main():
     parser.add_argument('-f', action='store_const',
                         const=True, dest='full_ticket',
                         help='Print full ticket data.')
+    parser.add_argument('-c', '--config',
+                        help='API configuration file.')
     args = parser.parse_args()
-
-    if not args.user:
-        print('Please specify the Zendesk user.')
-        exit()
 
     if args.spam and args.delete:
         print('spam and delete cannot be set at the same time.')
         exit()
 
-    zd = ZendeskAPI(args.api_url, args.user, getpass('Password: '))
+    if args.config:
+        config = ConfigParser()
+        config.read(args.config)
+
+        user = config['zendesk-cli']['user']
+        password = config['zendesk-cli']['password']
+        api_url = config['zendesk-cli']['api_url']
+    else:
+        if args.user:
+            user = args.user
+            password = getpass('Password: ')
+        else:
+            print('Please specify the Zendesk user.')
+            exit()
+
+        if args.api_url:
+            api_url = args.api_url
+        else:
+            print('Please specify the API URL.')
+            exit()
+
+    zd = ZendeskAPI(api_url, user, password)
 
     tickets = []
     for ticket in zd.query(args.query):

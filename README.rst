@@ -36,3 +36,16 @@ Mark as spam
 .. code-block:: bash
 
    zendesk.py -a https://<yourprefix>.zendesk.com/api/v2/ -u <user@domain>/token -s 'tags:trash status:new'
+
+
+Configuration
+-------------
+
+Various options can optionally be stored in a configuration file. The path to file can be specified with the ``--config`` or ``-c`` flag.
+
+::
+
+    [zendesk-cli]
+    url = https://<yourprefix>.zendesk.com/api/v2/
+    user = <user@domain>/token
+    password = <password>
